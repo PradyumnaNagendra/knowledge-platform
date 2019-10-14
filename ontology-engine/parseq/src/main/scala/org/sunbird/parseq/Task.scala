@@ -13,8 +13,8 @@ object Task {
     }
 
     def parallel[R](block1: => Future[R], block2: => Future[R])(implicit ec: ExecutionContext): Future[List[R]] = {
-        val r1 = Future { block1 };
-        val r2 = Future { block2 };
+        val r1 = Future { block1 }
+        val r2 = Future { block2 }
         val result = for {
             result1 <- r1
             result2 <- r2

@@ -4,3 +4,4 @@
 GET		/health						controllers.HealthController.health
 
 POST /content/v3/create             controllers.v3.ContentController.create
+POST /content/v3/review/:identifier controllers.v3.ContentController.review(identifier: String)

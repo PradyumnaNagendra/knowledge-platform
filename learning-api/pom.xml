@@ -23,6 +23,7 @@
     <modules>
         <module>learning-manager</module>
         <module>orchestrator</module>
+        <module>content-manager</module>
     </modules>
     <dependencies>
     </dependencies>

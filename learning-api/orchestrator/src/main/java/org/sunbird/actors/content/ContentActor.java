@@ -7,6 +7,7 @@ import org.sunbird.common.dto.Request;
 import org.sunbird.common.dto.Response;
 import org.sunbird.graph.engine.NodeManager;
 import org.sunbird.graph.mgr.BaseGraphManager;
+import org.sunbird.content.managers.ReviewManager;
 import scala.concurrent.Future;
 
 
@@ -25,6 +26,10 @@ public class ContentActor extends BaseGraphManager {
         switch (operation) {
             case "createContent":
                 create(request);
+                break;
+
+            case "reviewContent":
+                review(request);
                 break;
             default:
                 ERROR(operation);
@@ -45,6 +50,15 @@ public class ContentActor extends BaseGraphManager {
     private void update(Request request) {
         Request createRequest = new Request(request, objectType);
 //        Patterns.pipe(getResult(createRequest), getContext().getDispatcher()).to(sender());
+    }
+
+    private void review(Request request) {
+        Request reviewRequest = new Request(request, objectType);
+        reviewRequest.setRequest(request.getRequest());
+        reviewRequest.getContext().put("keyspace",CONTENT_KEYSPACE_NAME);
+        reviewRequest.getContext().put("table",CONTENT_TABLE_NAME);
+        Future<Response> result = ReviewManager.review(reviewRequest, getContext().dispatcher());
+        Patterns.pipe(result, getContext().getDispatcher()).to(sender());
     }
 
 }

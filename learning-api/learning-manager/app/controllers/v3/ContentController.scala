@@ -21,4 +21,14 @@ class ContentController @Inject()(cc: ControllerComponents, actorSystem: ActorSy
         content.putAll(headers)
         getResult("org.sunbird.content.create", getRequest(content, headers, "createContent"))
     }
+
+    def review(identifier: String) = Action.async { implicit request =>
+        val headers = commonHeaders()
+        val body = requestBody()
+        val content = body.getOrElse(objectType, new java.util.HashMap()).asInstanceOf[java.util.Map[String, Object]];
+        content.putAll(headers)
+        val request = getRequest(content, headers, "reviewContent")
+        request.getContext.put("identifier", identifier)
+        getResult("org.sunbird.content.review", request)
+    }
 }
