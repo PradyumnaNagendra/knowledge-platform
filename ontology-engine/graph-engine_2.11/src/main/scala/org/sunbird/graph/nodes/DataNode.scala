@@ -3,13 +3,12 @@ package org.sunbird.graph.nodes
 import java.util
 
 import org.apache.commons.collections4.{CollectionUtils, MapUtils}
-import org.sunbird.common.JsonUtils
 import org.sunbird.common.dto.{Request, Response}
 import org.sunbird.graph.dac.model.{Node, Relation}
 import org.sunbird.graph.engine.RelationManager
 import org.sunbird.graph.external.ExternalPropsManager
 import org.sunbird.graph.relations.{IRelation, RelationHandler}
-import org.sunbird.graph.schema.{DefinitionFactory, DefinitionNode}
+import org.sunbird.graph.schema.DefinitionFactory
 import org.sunbird.graph.service.operation.NodeAsyncOperations
 import org.sunbird.parseq.Task
 
@@ -17,9 +16,9 @@ import scala.collection.JavaConversions._
 import scala.concurrent.{ExecutionContext, Future}
 
 
-object DataNode {
+object DataNode extends INode  {
     @throws[Exception]
-    def create(request: Request)(implicit ec: ExecutionContext): Future[Node] = {
+    override def create(request: Request)(implicit ec: ExecutionContext): Future[Node] = {
         val graphId: String = request.getContext.get("graph_id").asInstanceOf[String]
         val version: String = request.getContext.get("version").asInstanceOf[String]
         val definition = DefinitionFactory.getDefinition(graphId, request.getObjectType, version)
@@ -60,4 +59,31 @@ object DataNode {
             Future(new Response)
         }
     }
+
+    /**
+      * Updates Node with relations and external properties
+      *
+      * @param request Request
+      * @param ec      ExecutionContext
+      * @return Future[Node]
+      */
+    override def update(request: Request)(implicit ec: ExecutionContext): Future[Node] = { null }
+
+    /**
+      * Fetches node with relations and fields
+      *
+      * @param request Request
+      * @param ec      ExecutionContext
+      * @return Future[Node]
+      */
+    override def read(request: Request)(implicit ec: ExecutionContext): Future[Node] = { null O}
+
+    /**
+      * Deletes node, relation and external properties
+      *
+      * @param request Request
+      * @param ec      ExecutionContext
+      * @return Future[String]
+      */
+    override def delete(request: Request)(implicit ec: ExecutionContext): Future[String] = {null}
 }

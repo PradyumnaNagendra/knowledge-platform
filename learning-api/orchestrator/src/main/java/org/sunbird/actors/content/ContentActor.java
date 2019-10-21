@@ -1,6 +1,5 @@
 package org.sunbird.actors.content;
 
-import akka.dispatch.Futures;
 import akka.dispatch.Mapper;
 import org.sunbird.actor.core.BaseActor;
 import org.sunbird.common.dto.Request;
